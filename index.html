@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Pandemia Ska | VIRUS DETECTADO</title>
+    
+    <!-- Fuentes: Black Ops (Militar), Rubik Glitch (Caos), Roboto (Lectura) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Black+Ops+One&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Iconos para los botones de play -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* --- PALETA CROMÁTICA OFICIAL --- */
+        :root {
+            --rojo-intenso: #ff0000;      /* Revolución / Peligro */
+            --rojo-sangre: #8a0303;       /* Profundidad */
+            --negro-profundo: #050505;    /* Underground */
+            --gris-metalico: #b0b0b0;     /* Industrial */
+            --blanco-sucio: #e0e0e0;
+            
+            --font-glitch: 'Rubik Glitch', cursive;
+            --font-army: 'Black Ops One', cursive;
+            --font-text: 'Roboto Condensed', sans-serif;
+        }
+
+        /* --- RESET Y BASES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--negro-profundo);
+            color: var(--blanco-sucio);
+            font-family: var(--font-text);
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* --- EFECTO DE RUIDO Y TEXTURA SALPICADA --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+        }
+
+        /* --- PRELOADER (CARGANDO RESISTENCIA) --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--negro-profundo);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader-glitch {
+            font-family: var(--font-glitch);
+            font-size: 2.5rem;
+            color: var(--rojo-intenso);
+            text-align: center;
+            animation: text-flicker 0.1s infinite;
+        }
+
+        @keyframes text-flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        /* --- CANVAS DE FONDO --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- TIPOGRAFÍA 3D METÁLICA --- */
+        .metal-text {
+            font-family: var(--font-army);
+            color: var(--gris-metalico);
+            text-transform: uppercase;
+            text-shadow: 
+                2px 2px 0px #333,
+                4px 4px 0px #111,
+                6px 6px 0px var(--rojo-sangre);
+            letter-spacing: 2px;
+        }
+
+        .glitch-title {
+            position: relative;
+            font-size: 12vw; /* Grande y responsivo */
+            line-height: 0.9;
+            text-align: center;
+            color: var(--blanco-sucio);
+            font-family: var(--font-army);
+            mix-blend-mode: hard-light;
+        }
+
+        @media (min-width: 768px) { .glitch-title { font-size: 6rem; } }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 20px 30px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .nav-logo { font-family: var(--font-glitch); font-size: 1.5rem; color: var(--rojo-intenso); text-shadow: 2px 2px 0 #fff; }
+        
+        .menu-btn {
+            background: transparent;
+            border: 2px solid var(--rojo-intenso);
+            color: var(--rojo-intenso);
+            padding: 8px 16px;
+            font-family: var(--font-army);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .menu-btn:hover {
+            background: var(--rojo-intenso);
+            color: black;
+            box-shadow: 0 0 15px var(--rojo-intenso);
+        }
+
+        /* MENÚ OVERLAY (Funcional) */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--negro-profundo);
+            z-index: 99;
+            transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-left: 5px solid var(--rojo-intenso);
+        }
+
+        .menu-overlay.active { right: 0; }
+
+        .menu-link {
+            font-family: var(--font-army);
+            font-size: 2rem; 
+            color: var(--gris-metalico);
+            text-decoration: none;
+            margin: 10px 0;
+            text-transform: uppercase;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .menu-link:hover {
+            color: var(--rojo-intenso);
+            transform: skewX(-10deg);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 100px 20px 50px;
+        }
+
+        .hero-img-wrapper {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+            animation: float-agresivo 4s ease-in-out infinite;
+        }
+
+        /* Estrella Roja Revolucionaria (Fondo) */
+        .hero-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle, var(--rojo-intenso) 0%, transparent 70%);
+            opacity: 0.4;
+            z-index: -1;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: pulse-star 3s infinite;
+        }
+
+        @keyframes float-agresivo {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+        
+        @keyframes pulse-star {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .subtitle {
+            font-family: var(--font-glitch);
+            color: var(--rojo-intenso);
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* --- BOTONES MILITARES --- */
+        .btn-combat {
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--gris-metalico);
+            color: var(--gris-metalico);
+            font-family: var(--font-army);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .btn-combat::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--rojo-sangre);
+            transition: 0.4s;
+            z-index: -1;
+        }
+
+        .btn-combat:hover::before { left: 0; }
+        .btn-combat:hover { 
+            color: white; 
+            border-color: var(--rojo-intenso);
+            box-shadow: 5px 5px 0 black;
+        }
+
+        /* --- ESTILOS DE SECCIÓN DIFERENCIADOS --- */
+        /* Para que cada sección resalte diferente */
+        section { 
+            padding: 80px 20px; 
+            border-bottom: 2px solid #333; 
+            position: relative; 
+        }
+
+        section:nth-of-type(odd) {
+            background: linear-gradient(180deg, var(--negro-profundo) 0%, #0f0f0f 100%);
+        }
+
+        section:nth-of-type(even) {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a0505 100%); /* Sutil tinte rojizo oscuro */
+            border-bottom: 2px solid var(--rojo-sangre);
+        }
+        
+        .manifiesto-box {
+            border-left: 5px solid var(--rojo-intenso);
+            padding-left: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: var(--font-army);
+            font-size: 3rem;
+            color: var(--gris-metalico);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        
+        .section-title span { color: var(--rojo-intenso); }
+
+        .manifiesto-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+        
+        .highlight { color: var(--rojo-intenso); font-weight: bold; }
+
+        /* --- LISTAS Y TRAYECTORIA --- */
+        ul.combat-list {
+            list-style: none;
+            padding: 0;
+            color: #ccc;
+        }
+        ul.combat-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #222;
+        }
+        ul.combat-list li::before {
+            content: '>> ';
+            color: var(--rojo-intenso);
+        }
+        
+        /* --- INTEGRANTES GRID (Dinamico) --- */
+        .integrantes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .integrante-card {
+            position: relative;
+            background: #000;
+            border: 1px solid #333;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: crosshair;
+        }
+
+        .integrante-card:hover {
+            transform: scale(1.05) translateY(-10px);
+            border-color: var(--rojo-intenso);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            z-index: 10;
+        }
+
+        .integrante-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(120%);
+            transition: 0.4s;
+        }
+
+        .integrante-card:hover .integrante-img {
+            filter: grayscale(0%) contrast(100%);
+        }
+
+        .integrante-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-top: 2px solid var(--rojo-intenso);
+            transform: translateY(100%);
+            transition: 0.3s;
+        }
+
+        .integrante-card:hover .integrante-info {
+            transform: translateY(0);
+        }
+
+        .integrante-info h3 {
+            font-family: var(--font-army);
+            color: var(--rojo-intenso);
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .integrante-info p {
+            font-family: monospace;
+            color: #fff;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* --- WHATSAPP BUTTON --- */
+        .btn-whatsapp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            font-family: var(--font-army);
+            font-size: 1.2rem;
+            border: 2px solid #128C7E;
+            border-radius: 5px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.5);
+            transform: scale(1.02);
+        }
+
+        /* --- TRACKS (Industrial) --- */
+        .track {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111;
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+        
+        .track:hover {
+            border-color: var(--rojo-intenso);
+            background: #1a0505;
+            transform: translateX(10px);
+        }
+
+        .track-info h3 { font-family: var(--font-army); font-size: 1.3rem; color: white; }
+        .track-info p { font-size: 0.8rem; color: #777; font-family: monospace; text-transform: uppercase; }
+
+        /* --- FORMULARIO --- */
+        input, textarea {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            color: white;
+            padding: 15px;
+            font-family: monospace;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--rojo-intenso);
+            background: black;
+        }
+
+        /* --- LINK LISTS --- */
+        .link-list a {
+            display: block;
+            color: var(--gris-metalico);
+            text-decoration: none;
+            padding: 10px;
+            border-left: 2px solid #333;
+            margin-bottom: 5px;
+            transition: 0.3s;
+            background: #0a0a0a;
+        }
+        .link-list a:hover {
+            border-left-color: var(--rojo-intenso);
+            color: white;
+            padding-left: 20px;
+            background: #111;
+        }
+
+        /* --- VIDEO GRID (NUEVO) --- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .video-card {
+            background: #000;
+            border: 1px solid #333;
+            text-decoration: none;
+            transition: 0.3s;
+            overflow: hidden;
+            display: block;
+        }
+        
+        .video-card:hover {
+            border-color: var(--rojo-intenso);
+            transform: translateY(-5px);
+        }
+        
+        .video-thumb {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            filter: grayscale(80%);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .video-card:hover .video-thumb {
+            filter: grayscale(0%);
+        }
+        
+        .video-title {
+            padding: 15px;
+            font-family: var(--font-army);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: black;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 4px solid var(--rojo-intenso);
+        }
+        
+        /* Animación scroll */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+
+    <!-- RUIDO Y TEXTURA -->
+    <div class="noise-overlay"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- PANTALLA DE CARGA -->
+    <div id="preloader">
+        <div class="loader-glitch">INICIANDO INFECCIÓN...</div>
+        <div style="margin-top: 20px; font-family: monospace; color: #666;">CARGANDO VIRUS [||||||||||] 100%</div>
+    </div>
+
+    <!-- MENÚ (Móvil y Escritorio) -->
+    <nav>
+        <div class="nav-logo">PANDEMIA<span>SKA</span></div>
+        <button class="menu-btn" onclick="toggleMenu()">MENU //</button>
+    </nav>
+
+    <!-- MENÚ DESPLEGABLE -->
+    <div class="menu-overlay" id="menuOverlay">
+        <button class="close-btn" onclick="toggleMenu()">✕</button>
+        <a href="#hero" class="menu-link" onclick="toggleMenu()">INICIO</a>
+        <a href="#manifiesto" class="menu-link" onclick="toggleMenu()">IDENTIDAD</a>
+        <a href="#historia" class="menu-link" onclick="toggleMenu()">HISTORIA</a>
+        <a href="#integrantes" class="menu-link" onclick="toggleMenu()">INTEGRANTES</a>
+        <a href="#trayectoria" class="menu-link" onclick="toggleMenu()">TRAYECTORIA</a>
+        <a href="#reconocimientos" class="menu-link" onclick="toggleMenu()">RECONOCIMIENTOS</a>
+        <a href="#musica" class="menu-link" onclick="toggleMenu()">MÚSICA</a>
+        <a href="#prensa" class="menu-link" onclick="toggleMenu()">PRENSA</a>
+        <a href="#contacto" class="menu-link" onclick="toggleMenu()">CONTACTO</a>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-img-wrapper">
+            <div class="hero-star"></div>
+            <!-- IMAGEN DEL PANDA (Se usa logoPand.png) -->
+            <img src="logoPand.png" onerror="this.src='https://placehold.co/400x400/8a0303/FFFFFF/png?text=PANDA+RUDO'" alt="Panda Rudo con Máscara de Gas" class="hero-img">
+        </div>
+        
+        <h1 class="glitch-title metal-text">PANDEMIA<br>SKA</h1>
+        <div class="subtitle">RESISTENCIA // SKA-CORE // UNDERGROUND</div>
+        
+        <div>
+            <a href="#musica" class="btn-combat">ESCUCHAR</a>
+            <a href="#contacto" class="btn-combat">UNIRSE</a>
+        </div>
+    </section>
+
+    <!-- MANIFIESTO (BIO) -->
+    <section id="manifiesto">
+        <div class="manifiesto-box reveal">
+            <h2 class="section-title">IDENTIDAD <span>VISUAL</span></h2>
+            <p class="manifiesto-text">
+                El <span class="highlight">Panda Rudo</span> con su máscara antigás no es una mascota tierna. Es un símbolo de <span class="highlight">resistencia en ambientes hostiles</span>. Representa la sobrevivencia cultural y la crítica social ante un sistema tóxico.
+            </p>
+            <p class="manifiesto-text">
+                Somos activistas callejeros con botas militares y trompetas en mano. Nuestro sonido es crudo, directo y energético. No venimos solo a festejar, venimos a dar un mensaje combativo.
+            </p>
+            <p class="manifiesto-text" style="font-family: var(--font-army); font-size: 1.5rem; margin-top: 30px; color: var(--rojo-intenso);">
+                ACTITUD CONTESTATARIA. SKA COMBATIVO.
+            </p>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: HISTORIA & INTEGRANTES -->
+    <section id="historia">
+        <div class="manifiesto-box reveal">
+            <h2 class="section-title">HISTORIA <span>VIRAL</span></h2>
+            <p class="manifiesto-text">
+                La Pandemia Ska nace en el año 2017, influenciada principalmente por la fusión del género ska con estilos como rock, cumbia, reggae, y punk. 
+            </p>
+            <p class="manifiesto-text">
+                Con ocho integrantes del Estado de México y CDMX, nuestro nombre surge a partir del primordial objetivo: lograr expandir de una manera contagiosa por todo el mundo nuestra música, creada para todo tipo de oyentes.
+            </p>
+            <p class="manifiesto-text">
+                Hemos compartido escenario con grandes bandas como: Panteón Rococó, Los Victorios, La Royal Club, Rude Boys, La Trenza de la Abuela, Maskatesta, Santísima Trinidad, Real Sociedad, Los Korucos, La República, Sector Oi!, Sonora Skandalera, Los Gargars, Sekta Core, entre muchos otros.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN INTEGRANTES (Dinamica) -->
+    <section id="integrantes">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <div style="text-align: center;">
+                <h2 class="section-title reveal">ALINEACIÓN <span>ACTIVA</span></h2>
+                <p style="color: #666;">ELEMENTOS DE RESISTENCIA</p>
+            </div>
+            
+            <div class="integrantes-grid reveal">
+                <!-- PANDA (LÍDER) -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/panda.jpg" onerror="this.src='https://placehold.co/300x400/111/red/png?text=PANDA'" alt="Panda" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>PANDA</h3>
+                        <p>VOZ / LÍDER</p>
+                    </div>
+                </div>
+
+                <!-- ALEX -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/alex.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=ALEX'" alt="Alex" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>ALEX</h3>
+                        <p>BATERÍA</p>
+                    </div>
+                </div>
+
+                <!-- RAT -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/rat.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=RAT'" alt="Rat" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>RAT</h3>
+                        <p>TROMPETA</p>
+                    </div>
+                </div>
+
+                <!-- GAMA -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/gama.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=GAMA'" alt="Gama" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>GAMA</h3>
+                        <p>TROMBÓN</p>
+                    </div>
+                </div>
+
+                <!-- RODRIGO -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/roy.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=RODRIGO'" alt="Rodrigo" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>RODRIGO</h3>
+                        <p>TROMBÓN</p>
+                    </div>
+                </div>
+
+                <!-- CHARLY (AGREGADO) -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/charly.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=CHARLY'" alt="Charly" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>CHARLY</h3>
+                        <p>SAX</p>
+                    </div>
+                </div>
+
+                <!-- LEON -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/leo.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=LEON'" alt="Leon" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>LEON</h3>
+                        <p>GUITARRA</p>
+                    </div>
+                </div>
+
+                <!-- SAUL -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/saul.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=SAUL'" alt="Saul" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>SAÚL</h3>
+                        <p>GUITARRA</p>
+                    </div>
+                </div>
+
+                <!-- PIG-SKA -->
+                <div class="integrante-card">
+                    <img src="INTEGRANTES/pig.jpg" onerror="this.src='https://placehold.co/300x400/111/888/png?text=PIG-SKA'" alt="Pig-ska" class="integrante-img">
+                    <div class="integrante-info">
+                        <h3>PIG-SKA</h3>
+                        <p>BAJO</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: TRAYECTORIA -->
+    <section id="trayectoria">
+        <div class="manifiesto-box reveal" style="border-left-color: var(--gris-metalico);">
+            <h2 class="section-title">ZONAS <span>INFECTADAS</span></h2>
+            <p class="manifiesto-text">Al comienzo tuvimos que tocar muchas puertas. Actualmente La Pandemia Ska se ha presentado en lugares de resistencia:</p>
+            
+            <ul class="combat-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+                <li>Tianguis cultural del chopo (CDMX)</li>
+                <li>Foro Luna (CDMX)</li>
+                <li>La hija de los apaches (CDMX)</li>
+                <li>Recinto ferial de San Isidro Metepec</li>
+                <li>La Kuka Bar (Atizapán)</li>
+                <li>Pulqueria Vacas verdes (Bellas Artes)</li>
+                <li>Café Iguana & Beto’s Bar (Monterrey N.L)</li>
+                <li>Buenos amigos Bar (Monterrey N.L)</li>
+                <li>Museo del Pulque (CDMX)</li>
+                <li>4To Festival de globos de cantoya (Tonanitla)</li>
+                <li>Chapo´s Bar (Atizapán)</li>
+                <li>Foro la vieja escuela (Tlalnepantla)</li>
+                <li>Parka Beers (CDMX)</li>
+                <li>Acayucolocos (Pachuca)</li>
+                <li>La Baba de oso (Querétaro)</li>
+                <li>Skandalazo (San Andrés Chiautla)</li>
+                <li>Almoloya Biker Fest</li>
+                <li>Foro Aztlan (Cuautitlán)</li>
+                <li>El Deshuesadero (Tultitlán)</li>
+                <li>Miktlan Pulqueria (Oaxaca)</li>
+                <li>Nasty Zombie Diner (CDMX)</li>
+                <li style="color: var(--rojo-intenso); font-weight: bold;">Reclusorio de Santa Martha Acatitla</li>
+                <li style="color: var(--rojo-intenso); font-weight: bold;">Reclusorio Norte (CDMX)</li>
+                <li style="color: var(--rojo-intenso); font-weight: bold;">Penal de Máxima seguridad “El Diamante”</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: RECONOCIMIENTOS -->
+    <section id="reconocimientos">
+        <div class="manifiesto-box reveal">
+            <h2 class="section-title">LOGROS <span>DESBLOQUEADOS</span></h2>
+            
+            <div style="background: rgba(0,0,0,0.5); padding: 20px; border: 1px dashed var(--rojo-sangre); margin-bottom: 20px;">
+                <h3 style="color: var(--rojo-intenso); font-family: var(--font-army);">GOBIERNO DE LA CIUDAD DE MÉXICO (2022)</h3>
+                <p style="font-size: 0.9rem; color: #bbb;">Subsecretaría del Sistema Penitenciario. Por destacada participación en el festival del Día del Padre en el Centro Varonil de Reinserción Social Santa Martha Acatitla.</p>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.5); padding: 20px; border: 1px dashed var(--rojo-sangre); margin-bottom: 20px;">
+                <h3 style="color: var(--rojo-intenso); font-family: var(--font-army);">RODOLFO Y SUS ROLLOS (2020)</h3>
+                <p style="font-size: 0.9rem; color: #bbb;">Reconocimiento por contribución en la música a nivel internacional.</p>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.5); padding: 20px; border: 1px dashed var(--rojo-sangre);">
+                <h3 style="color: var(--rojo-intenso); font-family: var(--font-army);">JHALEN PRODUCCIONES</h3>
+                <p style="font-size: 0.9rem; color: #bbb;">Reconocimiento por participación en aniversario (2020) y colaboración con Free Topic Media.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÚSICA & DISCOGRAFIA (Actualizado) -->
+    <section id="musica">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 class="section-title reveal">DISCOGRA<span>FÍA</span></h2>
+            
+            <!-- Información Nueva de Discografía -->
+            <div class="reveal" style="margin-top: 40px; background: #0a0a0a; padding: 20px; border: 1px solid #333;">
+                <h3 style="font-family: var(--font-army); color: var(--rojo-intenso);">ALBUM ACTUAL</h3>
+                <p style="font-size: 0.9rem; color: #ccc; margin-top: 10px;">
+                    ▶ <strong>DEMO DIGITAL:</strong> 5 Canciones.<br>
+                    ▶ <strong>EN PROCESO:</strong> Primer CD Físico.<br>
+                    ▶ <strong>COLABORACIONES:</strong> Gerardo (Vantroi) y Chapo Salcedo (Sekta Core).
+                </p>
+            </div>
+
+            <!-- Sesiones en Vivo (Visual) -->
+            <div class="reveal" style="margin-top: 40px;">
+                <h3 style="font-family: var(--font-army); color: var(--gris-metalico); margin-bottom: 20px; text-align: center;">SESIONES EN VIVO</h3>
+                
+                <div class="video-grid">
+                    <!-- YouTube: Titanio -->
+                    <a href="https://www.youtube.com/watch?v=wrGOmJHYels" target="_blank" class="video-card">
+                        <img src="https://img.youtube.com/vi/wrGOmJHYels/hqdefault.jpg" alt="Titanio Records" class="video-thumb">
+                        <div class="video-title">TITANIO RÉCORDS</div>
+                    </a>
+
+                    <!-- YouTube: Desde la Kloaca -->
+                    <a href="https://youtu.be/AJPiL8k5a4" target="_blank" class="video-card">
+                        <img src="https://img.youtube.com/vi/AJPiL8k5a4/hqdefault.jpg" alt="Desde la Kloaca" class="video-thumb">
+                        <div class="video-title">DESDE LA KLOACA</div>
+                    </a>
+
+                    <!-- FB: Quirófano -->
+                    <a href="https://www.facebook.com/israel.robalu.1/videos/647318462510243/" target="_blank" class="video-card">
+                        <img src="https://placehold.co/400x300/1a0505/red/png?text=QUIROFANO+STUDIO" alt="Quirofano Studio" class="video-thumb">
+                        <div class="video-title">QUIRÓFANO STUDIO</div>
+                    </a>
+
+                    <!-- FB: Casablanca -->
+                    <a href="https://fb.watch/a-0kOYYlDz/" target="_blank" class="video-card">
+                        <img src="https://placehold.co/400x300/1a0505/red/png?text=ESTUDIOS+CASABLANCA" alt="Estudios Casablanca" class="video-thumb">
+                        <div class="video-title">ESTUDIOS CASABLANCA</div>
+                    </a>
+
+                    <!-- FB: Narkamm -->
+                    <a href="https://fb.watch/a_SC1Q3auo/" target="_blank" class="video-card">
+                        <img src="https://placehold.co/400x300/1a0505/red/png?text=NARKAMM+TATTO" alt="Narkamm Tatto" class="video-thumb">
+                        <div class="video-title">LA NUEVA CARA DEL ROCK</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SPOTIFY EMBED (Reemplazado) -->
+            <div class="reveal" style="margin-top: 40px; text-align: center;">
+                <h3 style="font-family: var(--font-army); color: var(--rojo-intenso); margin-bottom: 20px;">ESCUCHA AHORA</h3>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/0hksHtfvO6yGm88NHb7U8s?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: PRENSA -->
+    <section id="prensa">
+        <div class="manifiesto-box reveal">
+            <h2 class="section-title">PRENSA <span>ALIADA</span></h2>
+            <div class="link-list">
+                <a href="https://fb.watch/a_IY-T8QaW/" target="_blank">ALTERNO TV</a>
+                <a href="https://m.facebook.com/story.php?story_fbid=885373388704748&id=100016962840667" target="_blank">KENYRADIO TV MEXIQUENSE</a>
+                <a href="https://fb.watch/a_RI_t9CRU/" target="_blank">Somos Música</a>
+                <a href="https://fb.watch/a_SUW61ypl/" target="_blank">Interfaz</a>
+                <a href="https://fb.watch/a_T2N0jMeH/" target="_blank">Resistencia Caimán</a>
+                <a href="https://m.facebook.com/story.php?story_fbid=939746146421339&id=100011578862688" target="_blank">Museo del Pulque</a>
+                <a href="https://fb.watch/a_TPaPlzP6/" target="_blank">La Bonachona Radio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO (Con Combo WhatsApp) -->
+    <section id="contacto" style="background: rgba(8,8,8, 0.9);">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <h2 class="section-title reveal" style="text-align: center;">CONTRATACIONES</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                SOLO PROPUESTAS SERIAS. FESTIVALES, FOROS, RESISTENCIA.
+            </p>
+            
+            <div class="reveal" style="text-align: center; border: 2px solid var(--rojo-sangre); padding: 30px; background: #000;">
+                
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--gris-metalico); font-family: var(--font-army); margin-bottom: 10px;">JESÚS BARRON</h3>
+                    <a href="https://wa.me/5215633515045" class="btn-whatsapp" target="_blank">
+                        <i data-lucide="message-circle"></i> 56 3351 5045
+                    </a>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--gris-metalico); font-family: var(--font-army); margin-bottom: 10px;">CARLOS MARTINEZ</h3>
+                    <a href="https://wa.me/5215581099799" class="btn-whatsapp" target="_blank">
+                        <i data-lucide="message-circle"></i> 55 8109 9799
+                    </a>
+                </div>
+
+                <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
+                    <h3 style="color: var(--rojo-intenso); font-family: var(--font-army);">CORREO OFICIAL</h3>
+                    <a href="mailto:pandemiasiaska123ska@gmail.com" style="color: var(--gris-metalico); text-decoration: none; font-size: 1.1rem;">pandemiasiaska123ska@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-family: var(--font-army); color: #444;">&copy; 2026 PANDEMIA SKA. TODOS LOS DERECHOS RESERVADOS.</p>
+    </footer>
+
+    <script>
+        // Inicializar iconos
+        lucide.createIcons();
+
+        // 1. PRELOADER
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
+            }, 1500);
+        };
+
+        // 2. MENU TOGGLE
+        function toggleMenu() {
+            const menu = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+        }
+
+        // 3. SCROLL REVEAL
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 4. FONDO VIRUS INFORMÁTICO (Matrix Red Style)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Caracteres para la lluvia de código (Virus Theme)
+        const characters = 'PANDEMIA SKA 010101 VIRUS ERROR ☠☣';
+        const fontSize = 14;
+        let columns = canvas.width / fontSize;
+        let drops = [];
+
+        // Inicializar gotas
+        function initDrops() {
+             columns = canvas.width / fontSize;
+             drops = [];
+             for (let i = 0; i < columns; i++) {
+                drops[i] = 1;
+             }
+        }
+        initDrops();
+        window.addEventListener('resize', initDrops);
+
+        function draw() {
+            // Fondo translúcido para dejar estela
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#8a0303'; // Texto rojo oscuro base
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                
+                // Algunos caracteres brillan más (Glitch)
+                if(Math.random() > 0.95) {
+                    ctx.fillStyle = '#ff0000'; // Rojo brillante
+                } else {
+                    ctx.fillStyle = '#8a0303'; // Rojo sangre
+                }
+
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+    </script>
+
+</body>
+</html>
