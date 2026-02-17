@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Black+Ops+One&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Iconos para los botones de play -->
+    <!-- Iconos -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -41,39 +41,21 @@
 
         /* --- EFECTO DE RUIDO --- */
         .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 50;
-            opacity: 0.05;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50; opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
         }
 
         /* --- PRELOADER --- */
         #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.5s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; justify-content: center;
+            align-items: center; flex-direction: column; transition: opacity 0.5s ease;
         }
         
         .loader-glitch {
-            font-family: var(--font-glitch);
-            font-size: 2.5rem;
-            color: var(--rojo-intenso);
-            text-align: center;
-            animation: text-flicker 0.1s infinite;
+            font-family: var(--font-glitch); font-size: 2.5rem; color: var(--rojo-intenso);
+            text-align: center; animation: text-flicker 0.1s infinite;
         }
 
         @keyframes text-flicker {
@@ -91,6 +73,27 @@
             height: 100%;
             z-index: -1; /* Detrás de todo */
         }
+
+        /* --- LIGHTBOX (VISOR DE FOTOS) --- */
+        #lightbox {
+            display: none;
+            position: fixed; z-index: 10000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0,0,0,0.95);
+            justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        #lightbox img {
+            max-width: 90%; max-height: 90%;
+            box-shadow: 0 0 20px var(--rojo-intenso);
+            border: 2px solid #333;
+        }
+        #lightbox-close {
+            position: absolute; top: 20px; right: 30px;
+            color: #f1f1f1; font-size: 40px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        #lightbox-close:hover { color: var(--rojo-intenso); }
 
         /* --- TIPOGRAFÍA --- */
         .metal-text {
@@ -371,7 +374,7 @@
             border: 1px solid #333;
             overflow: hidden;
             transition: all 0.4s;
-            cursor: crosshair;
+            cursor: pointer; /* Cursor pointer para indicar clic */
         }
 
         .integrante-card:hover {
@@ -385,11 +388,8 @@
             width: 100%;
             height: 320px; 
             object-fit: cover;
-            filter: grayscale(100%) contrast(120%);
             transition: 0.4s;
-        }
-
-        .integrante-card:hover .integrante-img { filter: grayscale(0%) contrast(100%); }
+        } /* SIN FILTRO GRAYSCALE */
 
         .integrante-info {
             position: absolute; bottom: 0; left: 0; width: 100%;
@@ -424,16 +424,37 @@
             border: 1px solid #333;
             position: relative;
             vertical-align: top;
+            cursor: pointer;
         }
 
         .gallery-item img {
             width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(80%); transition: 0.3s;
-        }
+            transition: 0.3s;
+        } /* SIN FILTRO GRAYSCALE */
         
-        .gallery-item:hover img { filter: grayscale(0%); }
+        /* --- ESTILOS DE LISTAS DE RECURSOS (PRESS KIT) --- */
+        .resource-content {
+            display: none; /* Oculto por defecto */
+            margin-top: 20px;
+            border-top: 1px dashed var(--rojo-intenso);
+            padding-top: 20px;
+            text-align: left;
+            animation: fadeIn 0.5s ease;
+        }
+        .resource-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px; border-bottom: 1px solid #333; background: rgba(0,0,0,0.6);
+            margin-bottom: 5px; transition: 0.2s;
+        }
+        .resource-item:hover { background: rgba(138, 3, 3, 0.2); border-left: 3px solid var(--rojo-intenso); }
+        .resource-item span { font-family: monospace; color: #ddd; font-size: 0.9rem; }
+        .resource-actions a, .resource-actions button {
+            color: var(--gris-metalico); margin-left: 15px; cursor: pointer; background: none; border: none;
+        }
+        .resource-actions a:hover, .resource-actions button:hover { color: var(--rojo-intenso); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- ICONOS DE REDES SOCIALES --- */
+        /* --- REDES SOCIALES --- */
         .social-icons-container {
             display: flex;
             flex-direction: column;
@@ -521,6 +542,12 @@
 </head>
 <body>
 
+    <!-- LIGHTBOX -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <span id="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Pantalla Completa">
+    </div>
+
     <!-- RUIDO Y TEXTURA -->
     <div class="noise-overlay"></div>
     <!-- CANVAS EN EL FONDO -->
@@ -558,8 +585,7 @@
     <section id="hero" class="hero">
         <div class="hero-img-wrapper">
             <div class="hero-star"></div>
-            <!-- IMAGEN DEL PANDA (Se usa logoPand.png) -->
-            <img src="logoPand.png" onerror="this.src='https://placehold.co/400x400/8a0303/FFFFFF/png?text=PANDA+RUDO'" alt="Panda Rudo con Máscara de Gas" class="hero-img">
+            <img src="logoPand.png" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/400x400/8a0303/FFFFFF/png?text=PANDA+RUDO'" alt="Panda Rudo con Máscara de Gas" class="hero-img" style="cursor: pointer;">
         </div>
         
         <h1 class="glitch-title metal-text">PANDEMIA<br>SKA</h1>
@@ -603,23 +629,23 @@
         </div>
     </section>
 
-    <!-- GALERÍA PANDÉMICA (Actualizada a 12 fotos) -->
+    <!-- GALERÍA PANDÉMICA (Sin filtro B&W) -->
     <section id="galeria">
         <div class="manifiesto-box reveal" style="max-width: 1000px;">
             <h2 class="section-title">GALERÍA <span>PANDÉMICA</span></h2>
             <div class="scroll-gallery-container">
-                <div class="gallery-item"><img src="GALERIA/gal1.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+1'" alt="Foto 1"></div>
-                <div class="gallery-item"><img src="GALERIA/gal2.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+2'" alt="Foto 2"></div>
-                <div class="gallery-item"><img src="GALERIA/gal3.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+3'" alt="Foto 3"></div>
-                <div class="gallery-item"><img src="GALERIA/gal4.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+4'" alt="Foto 4"></div>
-                <div class="gallery-item"><img src="GALERIA/gal5.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+5'" alt="Foto 5"></div>
-                <div class="gallery-item"><img src="GALERIA/gal6.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+6'" alt="Foto 6"></div>
-                <div class="gallery-item"><img src="GALERIA/gal7.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+7'" alt="Foto 7"></div>
-                <div class="gallery-item"><img src="GALERIA/gal8.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+8'" alt="Foto 8"></div>
-                <div class="gallery-item"><img src="GALERIA/gal9.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+9'" alt="Foto 9"></div>
-                <div class="gallery-item"><img src="GALERIA/gal10.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+10'" alt="Foto 10"></div>
-                <div class="gallery-item"><img src="GALERIA/gal11.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+11'" alt="Foto 11"></div>
-                <div class="gallery-item"><img src="GALERIA/gal12.jpg" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+12'" alt="Foto 12"></div>
+                <div class="gallery-item"><img src="GALERIA/gal1.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+1'" alt="Foto 1"></div>
+                <div class="gallery-item"><img src="GALERIA/gal2.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+2'" alt="Foto 2"></div>
+                <div class="gallery-item"><img src="GALERIA/gal3.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+3'" alt="Foto 3"></div>
+                <div class="gallery-item"><img src="GALERIA/gal4.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+4'" alt="Foto 4"></div>
+                <div class="gallery-item"><img src="GALERIA/gal5.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+5'" alt="Foto 5"></div>
+                <div class="gallery-item"><img src="GALERIA/gal6.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+6'" alt="Foto 6"></div>
+                <div class="gallery-item"><img src="GALERIA/gal7.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+7'" alt="Foto 7"></div>
+                <div class="gallery-item"><img src="GALERIA/gal8.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+8'" alt="Foto 8"></div>
+                <div class="gallery-item"><img src="GALERIA/gal9.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+9'" alt="Foto 9"></div>
+                <div class="gallery-item"><img src="GALERIA/gal10.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+10'" alt="Foto 10"></div>
+                <div class="gallery-item"><img src="GALERIA/gal11.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+11'" alt="Foto 11"></div>
+                <div class="gallery-item"><img src="GALERIA/gal12.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=FOTO+12'" alt="Foto 12"></div>
             </div>
             <p style="text-align:center; font-size:0.8rem; margin-top:10px; color:#666;">DESLIZA PARA VER MÁS &gt;&gt;</p>
         </div>
@@ -634,15 +660,15 @@
             </div>
             
             <div class="integrantes-grid reveal">
-                <div class="integrante-card"><img src="INTEGRANTES/panda.jpg" onerror="this.src='https://placehold.co/300x320/111/red/png?text=PANDA'" alt="Panda" class="integrante-img"><div class="integrante-info"><h3>PANDA</h3><p>VOZ / LÍDER</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/alex.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=ALEX'" alt="Alex" class="integrante-img"><div class="integrante-info"><h3>ALEX</h3><p>BATERÍA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/rat.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RAT'" alt="Rat" class="integrante-img"><div class="integrante-info"><h3>RAT</h3><p>TROMPETA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/gama.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=GAMA'" alt="Gama" class="integrante-img"><div class="integrante-info"><h3>GAMA</h3><p>TROMBÓN</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/roy.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RODRIGO'" alt="Rodrigo" class="integrante-img"><div class="integrante-info"><h3>RODRIGO</h3><p>TROMBÓN</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/charly.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=CHARLY'" alt="Charly" class="integrante-img"><div class="integrante-info"><h3>CHARLY</h3><p>SAX</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/leo.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=LEON'" alt="Leon" class="integrante-img"><div class="integrante-info"><h3>LEON</h3><p>GUITARRA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/saul.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=SAUL'" alt="Saul" class="integrante-img"><div class="integrante-info"><h3>SAÚL</h3><p>GUITARRA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/pig.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=PIG-SKA'" alt="Pig-ska" class="integrante-img"><div class="integrante-info"><h3>PIG-SKA</h3><p>BAJO</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/panda.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/red/png?text=PANDA'" alt="Panda" class="integrante-img"><div class="integrante-info"><h3>PANDA</h3><p>VOZ / LÍDER</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/alex.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=ALEX'" alt="Alex" class="integrante-img"><div class="integrante-info"><h3>ALEX</h3><p>BATERÍA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/rat.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RAT'" alt="Rat" class="integrante-img"><div class="integrante-info"><h3>RAT</h3><p>TROMPETA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/gama.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=GAMA'" alt="Gama" class="integrante-img"><div class="integrante-info"><h3>GAMA</h3><p>TROMBÓN</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/roy.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RODRIGO'" alt="Rodrigo" class="integrante-img"><div class="integrante-info"><h3>RODRIGO</h3><p>TROMBÓN</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/charly.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=CHARLY'" alt="Charly" class="integrante-img"><div class="integrante-info"><h3>CHARLY</h3><p>SAX</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/leo.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=LEON'" alt="Leon" class="integrante-img"><div class="integrante-info"><h3>LEON</h3><p>GUITARRA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/saul.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=SAUL'" alt="Saul" class="integrante-img"><div class="integrante-info"><h3>SAÚL</h3><p>GUITARRA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/pig.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=PIG-SKA'" alt="Pig-ska" class="integrante-img"><div class="integrante-info"><h3>PIG-SKA</h3><p>BAJO</p></div></div>
             </div>
         </div>
     </section>
@@ -684,46 +710,92 @@
         </div>
     </section>
 
-    <!-- FLYERS DE EVENTOS (Actualizado a 15 flyers) -->
+    <!-- FLYERS DE EVENTOS (Sin filtro B&W) -->
     <section id="flyers">
         <div class="manifiesto-box reveal" style="max-width: 1000px;">
             <h2 class="section-title">FLYERS DE <span>EVENTOS</span></h2>
             <div class="scroll-gallery-container">
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly1.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+1'" alt="Flyer 1"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly2.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+2'" alt="Flyer 2"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly3.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+3'" alt="Flyer 3"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly4.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+4'" alt="Flyer 4"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly5.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+5'" alt="Flyer 5"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly6.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+6'" alt="Flyer 6"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly7.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+7'" alt="Flyer 7"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly8.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+8'" alt="Flyer 8"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly9.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+9'" alt="Flyer 9"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly10.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+10'" alt="Flyer 10"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly11.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+11'" alt="Flyer 11"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly12.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+12'" alt="Flyer 12"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly13.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+13'" alt="Flyer 13"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly14.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+14'" alt="Flyer 14"></div>
-                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly15.jpg" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+15'" alt="Flyer 15"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly1.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+1'" alt="Flyer 1"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly2.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+2'" alt="Flyer 2"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly3.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+3'" alt="Flyer 3"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly4.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+4'" alt="Flyer 4"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly5.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+5'" alt="Flyer 5"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly6.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+6'" alt="Flyer 6"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly7.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+7'" alt="Flyer 7"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly8.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+8'" alt="Flyer 8"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly9.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+9'" alt="Flyer 9"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly10.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+10'" alt="Flyer 10"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly11.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+11'" alt="Flyer 11"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly12.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+12'" alt="Flyer 12"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly13.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+13'" alt="Flyer 13"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly14.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+14'" alt="Flyer 14"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly15.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+15'" alt="Flyer 15"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly16.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+16'" alt="Flyer 16"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly17.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+17'" alt="Flyer 17"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly18.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+18'" alt="Flyer 18"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly19.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+19'" alt="Flyer 19"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly20.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+20'" alt="Flyer 20"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly21.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+21'" alt="Flyer 21"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly22.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+22'" alt="Flyer 22"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly23.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+23'" alt="Flyer 23"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly24.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+24'" alt="Flyer 24"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly25.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+25'" alt="Flyer 25"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly26.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+26'" alt="Flyer 26"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly27.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+27'" alt="Flyer 27"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly28.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+28'" alt="Flyer 28"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly29.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+29'" alt="Flyer 29"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly30.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+30'" alt="Flyer 30"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly31.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+31'" alt="Flyer 31"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly32.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+32'" alt="Flyer 32"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly33.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+33'" alt="Flyer 33"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly34.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+34'" alt="Flyer 34"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly35.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+35'" alt="Flyer 35"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly36.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+36'" alt="Flyer 36"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly37.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+37'" alt="Flyer 37"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly38.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+38'" alt="Flyer 38"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly39.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+39'" alt="Flyer 39"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly40.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+40'" alt="Flyer 40"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly41.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+41'" alt="Flyer 41"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly42.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+42'" alt="Flyer 42"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly43.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+43'" alt="Flyer 43"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly44.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+44'" alt="Flyer 44"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly45.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+45'" alt="Flyer 45"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly46.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+46'" alt="Flyer 46"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly47.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+47'" alt="Flyer 47"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly48.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+48'" alt="Flyer 48"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly49.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+49'" alt="Flyer 49"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly50.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+50'" alt="Flyer 50"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly51.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+51'" alt="Flyer 51"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly52.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+52'" alt="Flyer 52"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly53.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+53'" alt="Flyer 53"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly54.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+54'" alt="Flyer 54"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly55.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+55'" alt="Flyer 55"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly56.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+56'" alt="Flyer 56"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly57.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+57'" alt="Flyer 57"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly58.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+58'" alt="Flyer 58"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly59.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+59'" alt="Flyer 59"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly60.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+60'" alt="Flyer 60"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly61.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+61'" alt="Flyer 61"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly62.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+62'" alt="Flyer 62"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly63.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+63'" alt="Flyer 63"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly64.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+64'" alt="Flyer 64"></div>
             </div>
             <p style="text-align:center; font-size:0.8rem; margin-top:10px; color:#666;">DESLIZA PARA VER MÁS &gt;&gt;</p>
         </div>
     </section>
 
-    <!-- RECONOCIMIENTOS -->
+    <!-- RECONOCIMIENTOS (TEXTO) -->
     <section id="reconocimientos">
         <div class="manifiesto-box reveal">
             <h2 class="section-title">LOGROS <span>DESBLOQUEADOS</span></h2>
-            
             <div style="background: rgba(0,0,0,0.5); padding: 20px; border: 1px dashed var(--rojo-sangre); margin-bottom: 20px;">
                 <h3 style="color: var(--rojo-intenso); font-family: var(--font-army);">GOBIERNO DE LA CIUDAD DE MÉXICO (2022)</h3>
                 <p style="font-size: 0.9rem; color: #bbb;">Subsecretaría del Sistema Penitenciario. Por destacada participación en el festival del Día del Padre en el Centro Varonil de Reinserción Social Santa Martha Acatitla.</p>
             </div>
-
             <div style="background: rgba(0,0,0,0.5); padding: 20px; border: 1px dashed var(--rojo-sangre); margin-bottom: 20px;">
                 <h3 style="color: var(--rojo-intenso); font-family: var(--font-army);">RODOLFO Y SUS ROLLOS (2020)</h3>
                 <p style="font-size: 0.9rem; color: #bbb;">Reconocimiento por contribución en la música a nivel internacional.</p>
             </div>
-
             <div style="background: rgba(0,0,0,0.5); padding: 20px; border: 1px dashed var(--rojo-sangre);">
                 <h3 style="color: var(--rojo-intenso); font-family: var(--font-army);">JHALEN PRODUCCIONES</h3>
                 <p style="font-size: 0.9rem; color: #bbb;">Reconocimiento por participación en aniversario (2020) y colaboración con Free Topic Media.</p>
@@ -735,7 +807,6 @@
     <section id="musica">
         <div style="max-width: 800px; margin: 0 auto;">
             <h2 class="section-title reveal">DISCOGRA<span>FÍA</span></h2>
-            
             <div class="reveal" style="margin-top: 40px; background: rgba(0,0,0,0.8); padding: 20px; border: 1px solid #333;">
                 <h3 style="font-family: var(--font-army); color: var(--rojo-intenso);">ALBUM ACTUAL</h3>
                 <p style="font-size: 0.9rem; color: #ccc; margin-top: 10px;">
@@ -744,34 +815,27 @@
                     ▶ <strong>COLABORACIONES:</strong> Gerardo (Vantroi).
                 </p>
             </div>
-
             <div class="reveal" style="margin-top: 40px;">
                 <h3 style="font-family: var(--font-army); color: var(--gris-metalico); margin-bottom: 20px; text-align: center;">SESIONES EN VIVO</h3>
-                
                 <div class="video-grid">
                     <a href="https://www.youtube.com/watch?v=wrGOmJHYels" target="_blank" class="video-card">
                         <img src="https://img.youtube.com/vi/wrGOmJHYels/hqdefault.jpg" alt="Titanio Records" class="video-thumb">
                         <div class="video-title">TITANIO RÉCORDS</div>
                     </a>
-                    <a href="https://youtu.be/AJPiL8k5a4" target="_blank" class="video-card">
-                        <img src="https://img.youtube.com/vi/AJPiL8k5a4/hqdefault.jpg" alt="Desde la Kloaca" class="video-thumb">
+                    <a href="https://youtu.be/AJPilL8k5a4?si=CkaazEBNaBmnkEq4" target="_blank" class="video-card">
+                        <img src="https://img.youtube.com/vi/AJPilL8k5a4/hqdefault.jpg" alt="Desde la Kloaca" class="video-thumb">
                         <div class="video-title">DESDE LA KLOACA</div>
                     </a>
-                    <a href="https://www.facebook.com/israel.robalu.1/videos/647318462510243/" target="_blank" class="video-card">
-                        <img src="https://placehold.co/400x300/1a0505/red/png?text=QUIROFANO+STUDIO" alt="Quirofano Studio" class="video-thumb">
-                        <div class="video-title">QUIRÓFANO STUDIO</div>
-                    </a>
-                    <a href="https://fb.watch/a-0kOYYlDz/" target="_blank" class="video-card">
-                        <img src="https://placehold.co/400x300/1a0505/red/png?text=ESTUDIOS+CASABLANCA" alt="Estudios Casablanca" class="video-thumb">
+                    <a href="https://youtu.be/JHc1-NeXwXs?si=cBJr7Z0jlIa665Hq" target="_blank" class="video-card">
+                        <img src="https://img.youtube.com/vi/JHc1-NeXwXs/hqdefault.jpg" alt="Estudios Casablanca" class="video-thumb">
                         <div class="video-title">ESTUDIOS CASABLANCA</div>
                     </a>
-                    <a href="https://fb.watch/a_SC1Q3auo/" target="_blank" class="video-card">
-                        <img src="https://placehold.co/400x300/1a0505/red/png?text=NARKAMM+TATTO" alt="Narkamm Tatto" class="video-thumb">
-                        <div class="video-title">LA NUEVA CARA DEL ROCK</div>
+                    <a href="https://youtu.be/oaFCOZ30xuE?si=twS4i-gMBUjjc4_b" target="_blank" class="video-card">
+                        <img src="https://img.youtube.com/vi/oaFCOZ30xuE/hqdefault.jpg" alt="Eco Casa de Ensayo" class="video-thumb">
+                        <div class="video-title">ECO CASA DE ENSAYO</div>
                     </a>
                 </div>
             </div>
-
             <div class="reveal" style="margin-top: 40px; text-align: center;">
                 <h3 style="font-family: var(--font-army); color: var(--rojo-intenso); margin-bottom: 20px;">ESCUCHA AHORA</h3>
                 <iframe style="border-radius:12px; width:100%; max-width: 100%; margin-bottom: 20px;" src="https://open.spotify.com/embed/album/0hksHtfvO6yGm88NHb7U8s?utm_source=generator" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -797,16 +861,89 @@
         </div>
     </section>
 
-    <!-- RECURSOS (PRESS KIT) -->
+    <!-- NUEVA SECCIÓN: GALERÍA DE RECONOCIMIENTOS -->
+    <section id="reconocimientos-galeria">
+        <div class="manifiesto-box reveal" style="max-width: 1000px;">
+            <h2 class="section-title">RECONOCI<span>MIENTOS</span></h2>
+            <div class="scroll-gallery-container">
+                <div class="gallery-item"><img src="REC/REC1.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+1'" alt="Reconocimiento 1"></div>
+                <div class="gallery-item"><img src="REC/REC2.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+2'" alt="Reconocimiento 2"></div>
+                <div class="gallery-item"><img src="REC/REC3.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+3'" alt="Reconocimiento 3"></div>
+                <div class="gallery-item"><img src="REC/REC4.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+4'" alt="Reconocimiento 4"></div>
+                <div class="gallery-item"><img src="REC/REC5.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+5'" alt="Reconocimiento 5"></div>
+                <div class="gallery-item"><img src="REC/REC6.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+6'" alt="Reconocimiento 6"></div>
+                <div class="gallery-item"><img src="REC/REC7.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+7'" alt="Reconocimiento 7"></div>
+            </div>
+            <p style="text-align:center; font-size:0.8rem; margin-top:10px; color:#666;">DESLIZA PARA VER MÁS &gt;&gt;</p>
+        </div>
+    </section>
+
+    <!-- RECURSOS (PRESS KIT) - ACTUALIZADO CON LISTAS INTERACTIVAS -->
     <section id="recursos">
         <div class="manifiesto-box reveal" style="text-align: center;">
             <h2 class="section-title">KIT DE <span>PRENSA</span></h2>
-            <p class="manifiesto-text">Descarga nuestros materiales oficiales para difusión.</p>
+            <p class="manifiesto-text">Materiales oficiales para difusión.</p>
+            
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
-                <a href="#" class="btn-combat" download>LOGOS OFICIALES</a>
-                <a href="#" class="btn-combat" download>RIDER TÉCNICO</a>
-                <a href="#" class="btn-combat" download>FOTOS (PRESS KIT)</a>
+                <button class="btn-combat" onclick="toggleResources('logos-list')">LOGOS OFICIALES</button>
+                <button class="btn-combat" onclick="toggleResources('rider-list')">RIDER TÉCNICO</button>
+                <button class="btn-combat" onclick="toggleResources('prensa-list')">FOTOS (PRESS KIT)</button>
             </div>
+
+            <!-- Lista de LOGOS -->
+            <div id="logos-list" class="resource-content">
+                <div class="resource-item">
+                    <span>LOGO OFICIAL 1 (PNG)</span>
+                    <div class="resource-actions">
+                        <button onclick="openLightbox('LOGOS/LOG1.png')"><i data-lucide="eye"></i></button>
+                        <a href="LOGOS/LOG1.png" download><i data-lucide="download"></i></a>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <span>LOGO OFICIAL 2 (PNG)</span>
+                    <div class="resource-actions">
+                        <button onclick="openLightbox('LOGOS/LOG2.png')"><i data-lucide="eye"></i></button>
+                        <a href="LOGOS/LOG2.png" download><i data-lucide="download"></i></a>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <span>LOGO OFICIAL 3 (PNG)</span>
+                    <div class="resource-actions">
+                        <button onclick="openLightbox('LOGOS/LOG3.png')"><i data-lucide="eye"></i></button>
+                        <a href="LOGOS/LOG3.png" download><i data-lucide="download"></i></a>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <span>LOGO OFICIAL 4 (PNG)</span>
+                    <div class="resource-actions">
+                        <button onclick="openLightbox('LOGOS/LOG4.png')"><i data-lucide="eye"></i></button>
+                        <a href="LOGOS/LOG4.png" download><i data-lucide="download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de RIDER -->
+            <div id="rider-list" class="resource-content">
+                <div class="resource-item">
+                    <span>RIDER TÉCNICO PANDEMIA SKA (PDF)</span>
+                    <div class="resource-actions">
+                        <a href="RIDER_TECN-PANDEMIA.pdf" target="_blank"><i data-lucide="eye"></i></a>
+                        <a href="RIDER_TECN-PANDEMIA.pdf" download><i data-lucide="download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de FOTOS PRENSA -->
+            <div id="prensa-list" class="resource-content">
+                <div class="resource-item"><span>FOTO PRENSA 1</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA1.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA1.jpg" download><i data-lucide="download"></i></a></div></div>
+                <div class="resource-item"><span>FOTO PRENSA 2</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA2.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA2.jpg" download><i data-lucide="download"></i></a></div></div>
+                <div class="resource-item"><span>FOTO PRENSA 3</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA3.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA3.jpg" download><i data-lucide="download"></i></a></div></div>
+                <div class="resource-item"><span>FOTO PRENSA 4</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA4.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA4.jpg" download><i data-lucide="download"></i></a></div></div>
+                <div class="resource-item"><span>FOTO PRENSA 5</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA5.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA5.jpg" download><i data-lucide="download"></i></a></div></div>
+                <div class="resource-item"><span>FOTO PRENSA 6</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA6.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA6.jpg" download><i data-lucide="download"></i></a></div></div>
+                <div class="resource-item"><span>FOTO PRENSA 7</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA7.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA7.jpg" download><i data-lucide="download"></i></a></div></div>
+            </div>
+
         </div>
     </section>
 
@@ -959,6 +1096,26 @@
         }
 
         setInterval(draw, 33);
+
+        // 5. FUNCIONES PARA RECURSOS Y LIGHTBOX
+        function toggleResources(id) {
+            // Cierra todos primero
+            document.querySelectorAll('.resource-content').forEach(el => el.style.display = 'none');
+            // Abre el seleccionado
+            const content = document.getElementById(id);
+            if (content) content.style.display = 'block';
+        }
+
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
     </script>
 
 </body>
