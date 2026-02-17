@@ -28,7 +28,8 @@
         }
 
         /* --- RESET Y BASES --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* AGREGA -webkit-tap-highlight-color PARA QUITAR EL FLASH */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         html, body {
             background-color: transparent; /* IMPORTANTE: Transparente para ver el canvas */
@@ -401,7 +402,7 @@
 
         .integrante-img {
             width: 100%;
-            height: 320px; 
+            height: 520px;  /* CAMBIO: Mucho más altas (verticales) */
             object-fit: cover;
             transition: 0.4s;
         } /* SIN FILTRO GRAYSCALE */
@@ -746,6 +747,26 @@
         </div>
     </section>
 
+    <!-- HITO IMPORTANTE: CHOPO -->
+    <section id="hito-chopo">
+        <div class="manifiesto-box reveal">
+            <h2 class="section-title">HITO <span>IMPORTANTE</span></h2>
+            
+            <div style="margin-bottom: 30px;">
+                <img src="GALERIA/CHOPO.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/800x500/111/8a0303/png?text=CHOPO'" alt="Tianguis Cultural del Chopo" style="width: 100%; height: auto; border: 1px solid #333; margin-bottom: 20px;">
+                
+                <h3 style="font-family: var(--font-army); color: var(--rojo-intenso); font-size: 1.5rem; margin-bottom: 15px;">PRESENTACIÓN EN EL TIANGUIS CULTURAL DEL CHOPO (07 DE FEBRERO)</h3>
+                
+                <p class="manifiesto-text">
+                    La segunda vez que Pandemia Ska se presentó en el Tianguis Cultural del Chopo quedó marcada como una tarde especial para la banda. Volver a ese espacio tan simbólico para la escena alternativa y reencontrarse con el público fue una confirmación de que el proyecto sigue avanzando y conectando con más gente en cada show. Desde los primeros temas se sintió la respuesta: slam, baile y esa vibra colectiva que solo se arma cuando banda y escenario están en la misma sintonía.
+                </p>
+                <p class="manifiesto-text">
+                    El grupo se lleva de esta presentación no solo el recuerdo del momento, sino también el agradecimiento sincero para todos los que estuvieron ahí apoyando, cantando y compartiendo la energía. Para Pandemia Ska, tocar en el Chopo no es cualquier fecha: es un punto de encuentro con la raza que mantiene viva la escena y una motivación más para seguir dándole con todo en cada presentación.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- FLYERS DE EVENTOS (Sin filtro B&W) -->
     <section id="flyers">
         <div class="manifiesto-box reveal" style="max-width: 1000px;">
@@ -815,6 +836,7 @@
                 <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly62.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+62'" alt="Flyer 62"></div>
                 <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly63.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+63'" alt="Flyer 63"></div>
                 <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly64.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+64'" alt="Flyer 64"></div>
+                <div class="gallery-item" style="height:350px; width:250px;"><img src="FLYERS/fly65.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x350/111/8a0303/png?text=FLYER+65'" alt="Flyer 65"></div>
             </div>
             <p style="text-align:center; font-size:0.8rem; margin-top:10px; color:#666;">DESLIZA PARA VER MÁS &gt;&gt;</p>
         </div>
@@ -872,6 +894,18 @@
                     </a>
                 </div>
             </div>
+
+            <!-- NUEVA MINI SECCIÓN -->
+            <div class="reveal" style="margin-top: 40px;">
+                <h3 style="font-family: var(--font-army); color: var(--rojo-intenso); text-align: center; margin-bottom: 20px;">
+                    PRÓXIMA SESIÓN EN EL GARAGE <span style="font-family: var(--font-glitch); color: #fff;">CARGANDO...</span>
+                </h3>
+                <div class="scroll-gallery-container">
+                    <div class="gallery-item"><img src="GARAGE/GARAGE1.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=SPOILER+1'" alt="Garage 1"></div>
+                    <div class="gallery-item"><img src="GARAGE/GARAGE2.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=SPOILER+2'" alt="Garage 2"></div>
+                </div>
+            </div>
+
             <div class="reveal spotify-container" style="margin-top: 40px; text-align: center;">
                 <h3 style="font-family: var(--font-army); color: var(--rojo-intenso); margin-bottom: 20px;">ESCUCHA AHORA</h3>
                 <iframe style="border-radius:12px; width:100%; max-width: 100%; margin-bottom: 20px;" src="https://open.spotify.com/embed/album/0hksHtfvO6yGm88NHb7U8s?utm_source=generator" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -894,92 +928,6 @@
                 <a href="https://m.facebook.com/story.php?story_fbid=939746146421339&id=100011578862688" target="_blank">Museo del Pulque</a>
                 <a href="https://fb.watch/a_TPaPlzP6/" target="_blank">La Bonachona Radio</a>
             </div>
-        </div>
-    </section>
-
-    <!-- NUEVA SECCIÓN: GALERÍA DE RECONOCIMIENTOS -->
-    <section id="reconocimientos-galeria">
-        <div class="manifiesto-box reveal" style="max-width: 1000px;">
-            <h2 class="section-title">RECONOCI<span>MIENTOS</span></h2>
-            <div class="scroll-gallery-container">
-                <div class="gallery-item"><img src="REC/REC1.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+1'" alt="Reconocimiento 1"></div>
-                <div class="gallery-item"><img src="REC/REC2.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+2'" alt="Reconocimiento 2"></div>
-                <div class="gallery-item"><img src="REC/REC3.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+3'" alt="Reconocimiento 3"></div>
-                <div class="gallery-item"><img src="REC/REC4.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+4'" alt="Reconocimiento 4"></div>
-                <div class="gallery-item"><img src="REC/REC5.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+5'" alt="Reconocimiento 5"></div>
-                <div class="gallery-item"><img src="REC/REC6.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+6'" alt="Reconocimiento 6"></div>
-                <div class="gallery-item"><img src="REC/REC7.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=REC+7'" alt="Reconocimiento 7"></div>
-            </div>
-            <p style="text-align:center; font-size:0.8rem; margin-top:10px; color:#666;">DESLIZA PARA VER MÁS &gt;&gt;</p>
-        </div>
-    </section>
-
-    <!-- RECURSOS (PRESS KIT) - ACTUALIZADO CON LISTAS INTERACTIVAS -->
-    <section id="recursos">
-        <div class="manifiesto-box reveal" style="text-align: center;">
-            <h2 class="section-title">KIT DE <span>PRENSA</span></h2>
-            <p class="manifiesto-text">Materiales oficiales para difusión.</p>
-            
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
-                <button class="btn-combat" onclick="toggleResources('logos-list')">LOGOS OFICIALES</button>
-                <button class="btn-combat" onclick="toggleResources('rider-list')">RIDER TÉCNICO</button>
-                <button class="btn-combat" onclick="toggleResources('prensa-list')">FOTOS (PRESS KIT)</button>
-            </div>
-
-            <!-- Lista de LOGOS -->
-            <div id="logos-list" class="resource-content">
-                <div class="resource-item">
-                    <span>LOGO OFICIAL 1 (PNG)</span>
-                    <div class="resource-actions">
-                        <button onclick="openLightbox('LOGOS/LOG1.png')"><i data-lucide="eye"></i></button>
-                        <a href="LOGOS/LOG1.png" download><i data-lucide="download"></i></a>
-                    </div>
-                </div>
-                <div class="resource-item">
-                    <span>LOGO OFICIAL 2 (PNG)</span>
-                    <div class="resource-actions">
-                        <button onclick="openLightbox('LOGOS/LOG2.png')"><i data-lucide="eye"></i></button>
-                        <a href="LOGOS/LOG2.png" download><i data-lucide="download"></i></a>
-                    </div>
-                </div>
-                <div class="resource-item">
-                    <span>LOGO OFICIAL 3 (PNG)</span>
-                    <div class="resource-actions">
-                        <button onclick="openLightbox('LOGOS/LOG3.png')"><i data-lucide="eye"></i></button>
-                        <a href="LOGOS/LOG3.png" download><i data-lucide="download"></i></a>
-                    </div>
-                </div>
-                <div class="resource-item">
-                    <span>LOGO OFICIAL 4 (PNG)</span>
-                    <div class="resource-actions">
-                        <button onclick="openLightbox('LOGOS/LOG4.png')"><i data-lucide="eye"></i></button>
-                        <a href="LOGOS/LOG4.png" download><i data-lucide="download"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lista de RIDER -->
-            <div id="rider-list" class="resource-content">
-                <div class="resource-item">
-                    <span>RIDER TÉCNICO PANDEMIA SKA (PDF)</span>
-                    <div class="resource-actions">
-                        <a href="RIDER_TECN-PANDEMIA.pdf" target="_blank"><i data-lucide="eye"></i></a>
-                        <a href="RIDER_TECN-PANDEMIA.pdf" download><i data-lucide="download"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lista de FOTOS PRENSA -->
-            <div id="prensa-list" class="resource-content">
-                <div class="resource-item"><span>FOTO PRENSA 1</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA1.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA1.jpg" download><i data-lucide="download"></i></a></div></div>
-                <div class="resource-item"><span>FOTO PRENSA 2</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA2.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA2.jpg" download><i data-lucide="download"></i></a></div></div>
-                <div class="resource-item"><span>FOTO PRENSA 3</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA3.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA3.jpg" download><i data-lucide="download"></i></a></div></div>
-                <div class="resource-item"><span>FOTO PRENSA 4</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA4.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA4.jpg" download><i data-lucide="download"></i></a></div></div>
-                <div class="resource-item"><span>FOTO PRENSA 5</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA5.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA5.jpg" download><i data-lucide="download"></i></a></div></div>
-                <div class="resource-item"><span>FOTO PRENSA 6</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA6.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA6.jpg" download><i data-lucide="download"></i></a></div></div>
-                <div class="resource-item"><span>FOTO PRENSA 7</span><div class="resource-actions"><button onclick="openLightbox('FOTOSPRENSA/PRENSA7.jpg')"><i data-lucide="eye"></i></button><a href="FOTOSPRENSA/PRENSA7.jpg" download><i data-lucide="download"></i></a></div></div>
-            </div>
-
         </div>
     </section>
 
