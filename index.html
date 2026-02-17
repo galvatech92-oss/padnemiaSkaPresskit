@@ -376,6 +376,13 @@
             margin-top: 30px;
         }
 
+        /* CAMBIO: Integrantes en columna única para móvil */
+        @media (max-width: 600px) {
+            .integrantes-grid {
+                grid-template-columns: 1fr !important; /* Fuerza 1 integrante por fila */
+            }
+        }
+
         .integrante-card {
             position: relative;
             background: rgba(0, 0, 0, 0.7);
@@ -543,8 +550,23 @@
         /* --- FOOTER --- */
         footer { background: black; padding: 40px 20px; text-align: center; border-top: 4px solid var(--rojo-intenso); }
         
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+        /* CAMBIO: Animación más fluida, ligera y dinámica (Cubic Bezier) */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1); /* Curva suave y elegante */
+        }
         .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* CAMBIO: Estilos para suavizar iframes de Spotify */
+        .spotify-container iframe {
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
+            transform-origin: center;
+        }
+        .spotify-container iframe:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
 
     </style>
 </head>
@@ -850,7 +872,7 @@
                     </a>
                 </div>
             </div>
-            <div class="reveal" style="margin-top: 40px; text-align: center;">
+            <div class="reveal spotify-container" style="margin-top: 40px; text-align: center;">
                 <h3 style="font-family: var(--font-army); color: var(--rojo-intenso); margin-bottom: 20px;">ESCUCHA AHORA</h3>
                 <iframe style="border-radius:12px; width:100%; max-width: 100%; margin-bottom: 20px;" src="https://open.spotify.com/embed/album/0hksHtfvO6yGm88NHb7U8s?utm_source=generator" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 <iframe style="border-radius:12px; width:100%; max-width: 100%; margin-bottom: 20px;" src="https://open.spotify.com/embed/album/425Ploc2f4WYqYJXnUSQHl?utm_source=generator" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
