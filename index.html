@@ -377,10 +377,14 @@
             margin-top: 30px;
         }
 
-        /* CAMBIO: Integrantes en columna única para móvil */
+        /* CAMBIO: Integrantes en columna única para móvil Y ajuste de altura */
         @media (max-width: 600px) {
             .integrantes-grid {
                 grid-template-columns: 1fr !important; /* Fuerza 1 integrante por fila */
+            }
+            /* Solo en celular se ven muy altas */
+            .integrante-img {
+                height: 520px !important; 
             }
         }
 
@@ -402,7 +406,7 @@
 
         .integrante-img {
             width: 100%;
-            height: 520px;  /* CAMBIO: Mucho más altas (verticales) */
+            height: 320px;  /* Altura normal para PC */
             object-fit: cover;
             transition: 0.4s;
         } /* SIN FILTRO GRAYSCALE */
@@ -900,7 +904,7 @@
                 <h3 style="font-family: var(--font-army); color: var(--rojo-intenso); text-align: center; margin-bottom: 20px;">
                     PRÓXIMA SESIÓN EN EL GARAGE <span style="font-family: var(--font-glitch); color: #fff;">CARGANDO...</span>
                 </h3>
-                <div class="scroll-gallery-container">
+                <div class="scroll-gallery-container" style="text-align: center;"> <!-- Added style -->
                     <div class="gallery-item"><img src="GARAGE/GARAGE1.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=SPOILER+1'" alt="Garage 1"></div>
                     <div class="gallery-item"><img src="GARAGE/GARAGE2.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/250x250/111/8a0303/png?text=SPOILER+2'" alt="Garage 2"></div>
                 </div>
