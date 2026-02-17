@@ -130,7 +130,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+            background: #000; /* CAMBIO: Fondo negro sólido */
+            border-bottom: 1px solid #111;
         }
 
         .nav-logo { font-family: var(--font-glitch); font-size: 1.5rem; color: var(--rojo-intenso); text-shadow: 2px 2px 0 #fff; }
@@ -330,6 +331,13 @@
             text-transform: uppercase;
             word-wrap: break-word;
             text-shadow: 2px 2px 4px #000;
+        }
+
+        /* CAMBIO: Optimización para celular en títulos largos */
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 2rem; /* Reduce tamaño para que quepa en un renglón */
+            }
         }
         
         .section-title span { color: var(--rojo-intenso); }
@@ -589,7 +597,7 @@
         </div>
         
         <h1 class="glitch-title metal-text">PANDEMIA<br>SKA</h1>
-        <div class="subtitle">RESISTENCIA // SKA FUSIÓN // UNDERGROUND</div>
+        <div class="subtitle">RESISTENCIA // SKA FUSIÓN DEL MÁS PUERKO</div>
         
         <div style="display: flex; flex-wrap: wrap; justify-content: center;">
             <a href="#musica" class="btn-combat">ESCUCHAR</a>
@@ -617,6 +625,9 @@
     <section id="historia">
         <div class="manifiesto-box reveal">
             <h2 class="section-title">HISTORIA <span>VIRAL</span></h2>
+            <p class="manifiesto-text" style="font-family: var(--font-army); color: var(--rojo-intenso); font-size: 1.3rem;">
+                EL PARAÍSO PERDIDO SE HACE PRESENTE.
+            </p>
             <p class="manifiesto-text">
                 La Pandemia Ska nace en el año 2017, influenciada principalmente por la fusión del género ska con estilos como rock, cumbia, reggae, y punk. 
             </p>
@@ -625,6 +636,9 @@
             </p>
             <p class="manifiesto-text">
                 Hemos compartido escenario con grandes bandas como: Panteón Rococó, Los Victorios, La Royal Club, Rude Boys, La Trenza de la Abuela, Maskatesta, Santísima Trinidad, Real Sociedad, Los Korucos, La República, Sector Oi!, Sonora Skandalera, Los Gargars, Sekta Core, entre muchos otros.
+            </p>
+            <p class="manifiesto-text">
+                El nombre de Pandemia Ska también es porque queremos que nuestra música llegue a cualquier rincón del mundo como una epidemia.
             </p>
         </div>
     </section>
@@ -651,7 +665,7 @@
         </div>
     </section>
 
-    <!-- SECCIÓN INTEGRANTES -->
+    <!-- SECCIÓN INTEGRANTES (CAMBIO: Sin lightbox) -->
     <section id="integrantes">
         <div style="max-width: 1000px; margin: 0 auto;">
             <div style="text-align: center;">
@@ -660,15 +674,15 @@
             </div>
             
             <div class="integrantes-grid reveal">
-                <div class="integrante-card"><img src="INTEGRANTES/panda.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/red/png?text=PANDA'" alt="Panda" class="integrante-img"><div class="integrante-info"><h3>PANDA</h3><p>VOZ / LÍDER</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/alex.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=ALEX'" alt="Alex" class="integrante-img"><div class="integrante-info"><h3>ALEX</h3><p>BATERÍA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/rat.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RAT'" alt="Rat" class="integrante-img"><div class="integrante-info"><h3>RAT</h3><p>TROMPETA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/gama.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=GAMA'" alt="Gama" class="integrante-img"><div class="integrante-info"><h3>GAMA</h3><p>TROMBÓN</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/roy.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RODRIGO'" alt="Rodrigo" class="integrante-img"><div class="integrante-info"><h3>RODRIGO</h3><p>TROMBÓN</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/charly.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=CHARLY'" alt="Charly" class="integrante-img"><div class="integrante-info"><h3>CHARLY</h3><p>SAX</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/leo.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=LEON'" alt="Leon" class="integrante-img"><div class="integrante-info"><h3>LEON</h3><p>GUITARRA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/saul.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=SAUL'" alt="Saul" class="integrante-img"><div class="integrante-info"><h3>SAÚL</h3><p>GUITARRA</p></div></div>
-                <div class="integrante-card"><img src="INTEGRANTES/pig.jpg" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/300x320/111/888/png?text=PIG-SKA'" alt="Pig-ska" class="integrante-img"><div class="integrante-info"><h3>PIG-SKA</h3><p>BAJO</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/panda.jpg" onerror="this.src='https://placehold.co/300x320/111/red/png?text=PANDA'" alt="Panda" class="integrante-img"><div class="integrante-info"><h3>PANDA</h3><p>VOZ / LÍDER</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/alex.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=ALEX'" alt="Alex" class="integrante-img"><div class="integrante-info"><h3>ALEX</h3><p>BATERÍA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/rat.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RAT'" alt="Rat" class="integrante-img"><div class="integrante-info"><h3>RAT</h3><p>TROMPETA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/gama.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=GAMA'" alt="Gama" class="integrante-img"><div class="integrante-info"><h3>GAMA</h3><p>TROMBÓN</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/roy.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=RODRIGO'" alt="Rodrigo" class="integrante-img"><div class="integrante-info"><h3>RODRIGO</h3><p>TROMBÓN</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/charly.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=CHARLY'" alt="Charly" class="integrante-img"><div class="integrante-info"><h3>CHARLY</h3><p>SAX</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/leo.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=LEON'" alt="Leon" class="integrante-img"><div class="integrante-info"><h3>LEON</h3><p>GUITARRA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/saul.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=SAUL'" alt="Saul" class="integrante-img"><div class="integrante-info"><h3>SAÚL</h3><p>GUITARRA</p></div></div>
+                <div class="integrante-card"><img src="INTEGRANTES/pig.jpg" onerror="this.src='https://placehold.co/300x320/111/888/png?text=PIG-SKA'" alt="Pig-ska" class="integrante-img"><div class="integrante-info"><h3>PIG-SKA</h3><p>BAJO</p></div></div>
             </div>
         </div>
     </section>
